@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS Books (
 	IsSectionEnd boolean NOT NULL DEFAULT false COMMENT 'Is the final Book in the Section',
 	ChapterCount smallint NOT NULL COMMENT 'Count of chapters in this book following Protestant tradition',
 	OsisCode varchar(6) CHARACTER SET ascii NOT NULL COMMENT 'Osis code for the Book',
-	Paratext varchar(3) CHARACTER SET ascii NOT NULL COMMENT 'Paratext code for the Book',
+	Paratext char(3) CHARACTER SET ascii NOT NULL COMMENT 'Paratext code for the Book',
 	PRIMARY KEY (Id),
 	CONSTRAINT FK_Books_Canons FOREIGN KEY (CanonId) REFERENCES Canons (Id),
 	CONSTRAINT FK_Books_Sections FOREIGN KEY (SectionId) REFERENCES Sections (Id)
