@@ -1,0 +1,764 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>MySQL/MariaDB Bible Database Schema</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="Generator" content="SchemaGen 2024.9.20.24" />
+	<link rel="shortcut icon" href="https://files.jewett.net/browse/~cylinder_050.png" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<style>
+			body,html {
+				font-family: -apple-system, BlinkMacSystemFont, 
+					"Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, 
+					"Fira Sans", "Droid Sans", "Helvetica Neue",
+					Tahoma, Arial, Verdana,
+					sans-serif;
+				font-size: 1em;
+				line-height: 1.42857143;
+			}
+
+			h1 { font-size: 1.2em; font-weight: bold; }
+			h2 { font-size: 1.5em; }
+			h3 { font-size: 1.3em; }
+			h4 { font-size: 1em; }
+			h5 { font-size: 0.8em; }
+			h6 { font-size: 0.7em; }
+
+			h1 {
+				margin: 0;
+			}
+
+			a:visited, a:link {
+				color: #00c;
+				text-decoration: none;
+			}
+
+			table.grid {
+				background-color:transparent;
+				border-spacing:0;
+				border-collapse:collapse;
+				font-size: .9375rem;
+				border: 1px solid #999;
+				margin-bottom: 20px;
+			}
+
+			.grid td, .grid th {
+				text-align:left;
+				vertical-align:top;
+				padding: .25em .5em .25em .5em;
+				border-right: 1px solid #999;
+				border-bottom: 1px solid #999;
+			}
+
+			.grid th {
+				background-color: #ccc;
+				color: #666;
+			}
+
+			.grid tbody th {
+				text-align: center;
+				padding: .5em .5em .25em .5em ;
+			}
+
+			.icon {
+				display: inline-block;
+				width: 1em;
+				height: 1em;
+				stroke-width: 0;
+				stroke: currentColor;
+				fill: currentColor;
+			}
+
+			.small-icon {
+				display: inline-block;
+				width: .75em;
+				height: .75em;
+				stroke-width: 0;
+				stroke: currentColor;
+				fill: currentColor;
+			}
+
+			@media screen {
+
+				nav {
+					border: 1px solid #ccc;
+					padding: .25em .5em;
+					position: fixed;
+					left: 1em;
+					top: 4.5em;
+					bottom: 1em;
+					right: 81%;
+					overflow: scroll;
+				}
+
+				nav ul {
+					margin: 0;
+					padding: 0;
+					list-style-type: none;
+				}
+
+				nav ul a {
+					text-decoration: none;
+				}
+
+				header {
+					position: fixed;
+					top: 1em;
+					left: 1em;
+					right: 1em;
+					height: 3em;
+				}
+	
+				main {
+					border: 1px solid #ccc;
+					padding: .25em 1em;
+					position: fixed;
+					left: 19.5%;
+					top: 4.5em;
+					bottom: 1em;
+					right: 1em;
+					overflow: scroll;
+		
+				}
+	
+				.stats {
+					float: left;
+					width: 78%;
+					font-size: 0.8em;
+					padding: .5em;
+				}
+	
+				.options {
+					float: right;
+					width: 18%;
+					font-size: 0.8em;
+				}
+				.options ul {
+					margin: 0;
+					padding: .5em;
+					list-style-type: none;
+					float: right;
+				}
+				.options ul li {
+					display: inline-block;
+					/* float: right; */
+				}
+				.options ul a {
+					text-decoration: none;
+				}
+
+				.options label {
+					margin: 0 .25em 0 1em;
+					font-weight: bold;
+				}
+	
+				article {
+					margin-bottom: 8em;
+				}
+	
+				.grid tr:nth-child(even) {
+					background-color: #eee;
+				}
+
+			}
+
+			@media print {
+
+				nav { display: none; }
+				.options { display: none; }
+
+				body,html {
+					font-size: .75em;
+				}
+	
+				.grid {
+					border: .25pt solid #999;
+				}
+	
+				.grid td {
+					border-right: .125pt solid #999;
+					border-bottom: .125pt solid #999;
+				}
+
+				.grid th {
+					background-color: #fff;
+					color: #000;
+					font-weight: bold;
+					border-right: .125pt solid #999;
+					border-bottom: .125pt solid #999;
+				}
+				.grid th:last-child {
+					border-right: .125pt solid #999;
+				}
+	
+				h3, h3 + table 
+				{
+					display:none;
+				}
+			}
+</style>
+</head>
+<body>
+
+<header>
+	<h1><svg class="icon icon-database"><use xlink:href="#icon-database"></use></svg> MySQL/MariaDB Bible Database Schema</h1>
+	<div>Updated: 2025-10-24</div>
+</header>
+
+<nav><ul>
+	<li><a href='#bibles'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Bibles</a></li>
+	<li><a href='#bibleverses'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> BibleVerses</a></li>
+	<li><a href='#booknames'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> BookNames</a></li>
+	<li><a href='#books'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Books</a></li>
+	<li><a href='#canons'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Canons</a></li>
+	<li><a href='#chapters'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Chapters</a></li>
+	<li><a href='#crossreferences'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> CrossReferences</a></li>
+	<li><a href='#greektextforms'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> GreekTextForms</a></li>
+	<li><a href='#hebrewtextforms'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> HebrewTextForms</a></li>
+	<li><a href='#languages'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Languages</a></li>
+	<li><a href='#licensepermissions'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> LicensePermissions</a></li>
+	<li><a href='#licensetypes'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> LicenseTypes</a></li>
+	<li><a href='#resources'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Resources</a></li>
+	<li><a href='#resourcetypes'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> ResourceTypes</a></li>
+	<li><a href='#revisions'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Revisions</a></li>
+	<li><a href='#salesstats'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> SalesStats</a></li>
+	<li><a href='#sections'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Sections</a></li>
+	<li><a href='#sites'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Sites</a></li>
+	<li><a href='#verses'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Verses</a></li>
+	<li><a href='#versionnotes'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> VersionNotes</a></li>
+	<li><a href='#versions'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Versions</a></li>
+</ul></nav>
+
+
+<main>
+<article id='bibles'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Bibles</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(16) ascii</td><td></td><td>&#160;</td><td>Code for lookups. Must be unique</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(64) utf8</td><td></td><td>&#160;</td><td>Name of this specific Bible</td></tr>
+		<tr><th>&#160;</th><td>Subtitle</td><td>varchar(128) utf8</td><td></td><td>&#160;</td><td>Subtitle for this specific Bible</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version of this Bible</td></tr>
+		<tr><th>&#160;</th><td>RevisionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#revisions'>Revisions</a></td><td>Optional Revision of this Bible</td></tr>
+		<tr><th>&#160;</th><td>YearPublished</td><td>smallint</td><td></td><td>&#160;</td><td>Year this Bible (or Revision) was published</td></tr>
+		<tr><th>&#160;</th><td>SourceId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#resources'>Resources</a></td><td>Optional source Resource of this Bible</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>TextFormat</td><td>varchar(6) ascii</td><td>('txt')</td><td>&#160;</td><td>Code for the format of the Content</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibleverses'>BibleVerses</a></td><td>BibleId</td><td>The Bible for this Content</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>BibleId</td><td>Optional Bible for this Note -- for notes specific to a Bible</td></tr>
+	</table>
+</article>
+
+<article id='bibleverses'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> BibleVerses</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>BibleId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#bibles'>Bibles</a></td><td>The Bible for this Content</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VerseId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#verses'>Verses</a></td><td>The Verse for this Content</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Markup</td><td>text</td><td></td><td>&#160;</td><td>The Content of the Bible Verse</td></tr>
+		<tr><th>&#160;</th><td>Notes</td><td>varchar(255) utf8</td><td></td><td>&#160;</td><td>Optional Notes for the Bible Verse</td></tr>
+		<tr><th>&#160;</th><td>Heading</td><td>varchar(255) utf8</td><td></td><td>&#160;</td><td>Optional Heading for the Bible Verse. Noncanonical Headings should be placed in [square brackets]</td></tr>
+	</tbody>
+	</table>
+</article>
+
+<article id='booknames'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> BookNames</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Name</td><td>varchar(64) ascii</td><td></td><td>&#160;</td><td>Altername name or code for Book</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>BookId</td><td>int</td><td></td><td>&#160;</td><td>Book Id following bible-sql numbering scheme</td></tr>
+	</tbody>
+	</table>
+</article>
+
+<article id='books'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Books</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Book Id following bible-sql numbering scheme</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(5) ascii</td><td></td><td>&#160;</td><td>Short url-friendly lowercase Code for Book</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Abbrev</td><td>varchar(5) ascii</td><td></td><td>&#160;</td><td>Short Proper case abbreviation for Book</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(16) ascii</td><td></td><td>&#160;</td><td>Name of Book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Book</td><td>tinyint</td><td></td><td>&#160;</td><td>Index of Book following Protestant order</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>CanonId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#canons'>Canons</a></td><td>Canon of Book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>SectionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#sections'>Sections</a></td><td>Section of Book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsSectionEnd</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>Is the final Book in the Section</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>ChapterCount</td><td>tinyint</td><td></td><td>&#160;</td><td>Count of chapters in this book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>OsisCode</td><td>varchar(6) ascii</td><td></td><td>&#160;</td><td>Osis code for the Book</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Paratext</td><td>char(3) ascii</td><td></td><td>&#160;</td><td>Paratext code for the Book</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#chapters'>Chapters</a></td><td>BookId</td><td>Book of the Chapter</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#verses'>Verses</a></td><td>BookId</td><td>Book of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>BookId</td><td>Optional Book for this Note -- for notes that apply to the Book as a whole</td></tr>
+	</table>
+</article>
+
+<article id='canons'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Canons</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Canon Id following bible-sql numbering scheme</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>char(3) ascii</td><td></td><td>&#160;</td><td>Short code following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(24) ascii</td><td></td><td>&#160;</td><td>Name following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>LanguageId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#languages'>Languages</a></td><td>Primary Language of the Canon</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#books'>Books</a></td><td>CanonId</td><td>Canon of Book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#sections'>Sections</a></td><td>CanonId</td><td>Canon of the Bible Section</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#verses'>Verses</a></td><td>CanonId</td><td>Canon of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>CanonId</td><td>Optional Canon for this Note -- for notes that apply to the Canon as a whole</td></tr>
+	</table>
+</article>
+
+<article id='chapters'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Chapters</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Chapter Id following bible-sql numbering scheme</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(7) ascii</td><td></td><td>&#160;</td><td>Short, url-friendly lowercase Code for chapter</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Reference</td><td>varchar(8) ascii</td><td></td><td>&#160;</td><td>Human readable reference using Book Abbrev and Chapter number</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Chapter</td><td>int</td><td></td><td>&#160;</td><td>Chapter number</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>BookId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#books'>Books</a></td><td>Book of the Chapter</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsBookEnd</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>Is the final Chapter in the Book</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VerseCount</td><td>int</td><td></td><td>&#160;</td><td>Count of verses in the Chapter</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#verses'>Verses</a></td><td>ChapterId</td><td>Chapter of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>ChapterId</td><td>Optional Chapter for this Note -- for notes that apply to the Chapter as a whole</td></tr>
+	</table>
+</article>
+
+<article id='crossreferences'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> CrossReferences</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VerseId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#verses'>Verses</a></td><td>Verse of the cross reference</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>RefId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#verses'>Verses</a></td><td>Cross Reference of the cross reference</td></tr>
+		<tr><th>&#160;</th><td>Weight</td><td>int</td><td></td><td>&#160;</td><td>Weight of the cross reference -- to use for prioritization</td></tr>
+	</tbody>
+	</table>
+</article>
+
+<article id='greektextforms'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> GreekTextForms</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>char(3) ascii</td><td></td><td>&#160;</td><td>One to three character code for Greek form</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(48) ascii</td><td></td><td>&#160;</td><td>Name of the Greek form</td></tr>
+		<tr><th>&#160;</th><td>ParentId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#greektextforms'>GreekTextForms</a></td><td>The Greek form this one derives from</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#greektextforms'>GreekTextForms</a></td><td>ParentId</td><td>The Greek form this one derives from</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>GreekFormId</td><td>Textual basis for the New Testament</td></tr>
+	</table>
+</article>
+
+<article id='hebrewtextforms'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> HebrewTextForms</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>char(3) ascii</td><td></td><td>&#160;</td><td>One to three character code for Hebrew text</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(48) ascii</td><td></td><td>&#160;</td><td>Name of the Hebrew form</td></tr>
+		<tr><th>&#160;</th><td>ParentId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#hebrewtextforms'>HebrewTextForms</a></td><td>The Hebrew form this one derives from</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#hebrewtextforms'>HebrewTextForms</a></td><td>ParentId</td><td>The Hebrew form this one derives from</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>HebrewFormId</td><td>Textual basis for the Old Testament</td></tr>
+	</table>
+</article>
+
+<article id='languages'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Languages</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>char(3) ascii</td><td></td><td>&#160;</td><td>Three character ISO 693-1 code</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(16) ascii</td><td></td><td>&#160;</td><td>Name of the Language in English</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>HtmlCode</td><td>char(2) ascii</td><td></td><td>&#160;</td><td>Two character html code for Language</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsAncient</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>This language or dialect has been extinct since ancient times</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#canons'>Canons</a></td><td>LanguageId</td><td>Primary Language of the Canon</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>LanguageId</td><td>Language of the Version</td></tr>
+	</table>
+</article>
+
+<article id='licensepermissions'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> LicensePermissions</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(48) ascii</td><td></td><td>&#160;</td><td>Name of the Permission</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Permissiveness</td><td>int</td><td></td><td>&#160;</td><td>Permissiveness of license on a scale of 0 to 100</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#licensetypes'>LicenseTypes</a></td><td>PermissionId</td><td>Permissiveness for License Type</td></tr>
+	</table>
+</article>
+
+<article id='licensetypes'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> LicenseTypes</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(64) ascii</td><td></td><td>&#160;</td><td>Name of the License Type</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsFree</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>True for licences allowing free quotation -- false for commercial restricting use</td></tr>
+		<tr><th>&#160;</th><td>PermissionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#licensepermissions'>LicensePermissions</a></td><td>Permissiveness for License Type</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>LicenseTypeId</td><td>Optional License Type</td></tr>
+	</table>
+</article>
+
+<article id='resources'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Resources</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>ResourceTypeId</td><td>varchar(8) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#resourcetypes'>ResourceTypes</a></td><td>Eight character code for Resource Type</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version of the Resource</td></tr>
+		<tr><th>&#160;</th><td>RevisionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#revisions'>Revisions</a></td><td>Optional Revision of the Resource</td></tr>
+		<tr><th>&#160;</th><td>Url</td><td>varchar(255) ascii</td><td></td><td>&#160;</td><td>Source Url for the Resource</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsOfficial</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>True if the Resource is the official one (i.e. provided by the publisher)</td></tr>
+		<tr><th>&#160;</th><td>SiteId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#sites'>Sites</a></td><td>Site associated with the Resource</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibles'>Bibles</a></td><td>SourceId</td><td>Optional source Resource of this Bible</td></tr>
+	</table>
+</article>
+
+<article id='resourcetypes'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> ResourceTypes</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>varchar(8) ascii</td><td></td><td>&#160;</td><td>Eight character code</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(64) utf8</td><td></td><td>&#160;</td><td>Name of the Resource Type</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#resources'>Resources</a></td><td>ResourceTypeId</td><td>Eight character code for Resource Type</td></tr>
+	</table>
+</article>
+
+<article id='revisions'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Revisions</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(13) ascii</td><td></td><td>&#160;</td><td>Revision Code used for lookups. Must be unique</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version of the Revision</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>YearPublished</td><td>smallint</td><td></td><td>&#160;</td><td>Year the Revision was first published in its entirety</td></tr>
+		<tr><th>&#160;</th><td>Subtitle</td><td>varchar(128) utf8</td><td></td><td>&#160;</td><td>Subtitle for the Revision, esp. if different than Version (i.e. Second Edition)</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibles'>Bibles</a></td><td>RevisionId</td><td>Optional Revision of this Bible</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#resources'>Resources</a></td><td>RevisionId</td><td>Optional Revision of the Resource</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>RevisionId</td><td>Optional Revision for this Note -- for notes specific to an Revision</td></tr>
+	</table>
+</article>
+
+<article id='salesstats'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> SalesStats</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version of the Sales Stat</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Year</td><td>smallint</td><td></td><td>&#160;</td><td>Year of the Sales Stat</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Month</td><td>int</td><td></td><td>&#160;</td><td>Month of the Sales Stat</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Ranking</td><td>tinyint</td><td></td><td>&#160;</td><td>Ranking of the Sales Stat</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>DatePartCode</td><td>varchar(2) ascii</td><td>('m')</td><td>&#160;</td><td>Code representing the timeframe for Sales Stat</td></tr>
+	</tbody>
+	</table>
+</article>
+
+<article id='sections'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Sections</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Section Id following bible-sql numbering scheme</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(16)</td><td></td><td>&#160;</td><td>Name of the Section following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>CanonId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#canons'>Canons</a></td><td>Canon of the Bible Section</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#books'>Books</a></td><td>SectionId</td><td>Section of Book following Protestant tradition</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#verses'>Verses</a></td><td>SectionId</td><td>Section of the Verse</td></tr>
+	</table>
+</article>
+
+<article id='sites'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Sites</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>varchar(64) ascii</td><td></td><td>&#160;</td><td>Site Name</td></tr>
+		<tr><th>&#160;</th><td>Url</td><td>varchar(255) ascii</td><td></td><td>&#160;</td><td>Site Url</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#resources'>Resources</a></td><td>SiteId</td><td>Site associated with the Resource</td></tr>
+	</table>
+</article>
+
+<article id='verses'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Verses</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Verse Id following bible-sql numbering scheme</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(16) ascii</td><td></td><td>&#160;</td><td>Short, url-friendly lowercase Code for verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>OsisCode</td><td>varchar(12) ascii</td><td></td><td>&#160;</td><td>Osis code for the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Reference</td><td>varchar(10) ascii</td><td></td><td>&#160;</td><td>Human readable reference using Book Abbrev Chapter:Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>CanonId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#canons'>Canons</a></td><td>Canon of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>SectionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#sections'>Sections</a></td><td>Section of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>BookId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#books'>Books</a></td><td>Book of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>ChapterId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#chapters'>Chapters</a></td><td>Chapter of the Verse</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>IsChapterEnd</td><td>boolean</td><td>(false)</td><td>&#160;</td><td>Is the final Verse in the Chapter</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Book</td><td>tinyint</td><td></td><td>&#160;</td><td>Book number</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Chapter</td><td>tinyint</td><td></td><td>&#160;</td><td>Chapter number</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Verse</td><td>tinyint</td><td></td><td>&#160;</td><td>Verse number</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibleverses'>BibleVerses</a></td><td>VerseId</td><td>The Verse for this Content</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#crossreferences'>CrossReferences</a></td><td>VerseId</td><td>Verse of the cross reference</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#crossreferences'>CrossReferences</a></td><td>RefId</td><td>Cross Reference of the cross reference</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>VerseId</td><td>Optional Verse for this Note -- for notes that apply to the Verse. Use BibleVerses.Notes for short notes</td></tr>
+	</table>
+</article>
+
+<article id='versionnotes'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> VersionNotes</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version for this Note</td></tr>
+		<tr><th>&#160;</th><td>RevisionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#revisions'>Revisions</a></td><td>Optional Revision for this Note -- for notes specific to an Revision</td></tr>
+		<tr><th>&#160;</th><td>BibleId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#bibles'>Bibles</a></td><td>Optional Bible for this Note -- for notes specific to a Bible</td></tr>
+		<tr><th>&#160;</th><td>CanonId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#canons'>Canons</a></td><td>Optional Canon for this Note -- for notes that apply to the Canon as a whole</td></tr>
+		<tr><th>&#160;</th><td>BookId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#books'>Books</a></td><td>Optional Book for this Note -- for notes that apply to the Book as a whole</td></tr>
+		<tr><th>&#160;</th><td>ChapterId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#chapters'>Chapters</a></td><td>Optional Chapter for this Note -- for notes that apply to the Chapter as a whole</td></tr>
+		<tr><th>&#160;</th><td>VerseId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#verses'>Verses</a></td><td>Optional Verse for this Note -- for notes that apply to the Verse. Use BibleVerses.Notes for short notes</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Note</td><td>text</td><td></td><td>&#160;</td><td>Content of the Note</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Ranking</td><td>int</td><td>(0)</td><td>&#160;</td><td>Weight (Descending Sort Order) of the Note</td></tr>
+		<tr><th>&#160;</th><td>Label</td><td>varchar(64) ascii</td><td></td><td>&#160;</td><td>Optional Label for the Note</td></tr>
+	</tbody>
+	</table>
+</article>
+
+<article id='versions'>
+	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Versions</h2>
+	<table class='grid'>
+	<thead>
+		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Code</td><td>varchar(16) ascii</td><td></td><td>&#160;</td><td>Version Code used for lookups. Must be unique</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Name</td><td>nvarchar(64) ascii</td><td></td><td>&#160;</td><td>Name of the Version</td></tr>
+		<tr><th>&#160;</th><td>Subtitle</td><td>varchar(128) utf8</td><td></td><td>&#160;</td><td>Optional Subtitle for the version</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>LanguageId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#languages'>Languages</a></td><td>Language of the Version</td></tr>
+		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>YearPublished</td><td>smallint</td><td></td><td>&#160;</td><td>Year first published in entirety</td></tr>
+		<tr><th>&#160;</th><td>HebrewFormId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#hebrewtextforms'>HebrewTextForms</a></td><td>Textual basis for the Old Testament</td></tr>
+		<tr><th>&#160;</th><td>GreekFormId</td><td>char(3) ascii</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#greektextforms'>GreekTextForms</a></td><td>Textual basis for the New Testament</td></tr>
+		<tr><th>&#160;</th><td>ParentId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Optional Version this is derived from</td></tr>
+		<tr><th>&#160;</th><td>LicenseTypeId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#licensetypes'>LicenseTypes</a></td><td>Optional License Type</td></tr>
+		<tr><th>&#160;</th><td>ReadingLevel</td><td>decimal(4,2)</td><td></td><td>&#160;</td><td>Reading Level using U.S. school grades (8.0 = Eighth Grade)</td></tr>
+	</tbody>
+	</table>
+	<h3><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> Referring Tables</h3>
+	<table class='grid'>
+		<tr><th>&#160;</th><th>Table</th><th>Column</th><th>Description</th></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibles'>Bibles</a></td><td>VersionId</td><td>Version of this Bible</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#revisions'>Revisions</a></td><td>VersionId</td><td>Version of the Revision</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#resources'>Resources</a></td><td>VersionId</td><td>Version of the Resource</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#salesstats'>SalesStats</a></td><td>VersionId</td><td>Version of the Sales Stat</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>VersionId</td><td>Version for this Note</td></tr>
+		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>ParentId</td><td>Optional Version this is derived from</td></tr>
+	</table>
+</article>
+
+
+<article>
+
+<hr>
+
+<pre>Bible Database: MariaDB/MySQL, by Don Jewett
+https://github.com/donjewett/bible-sql-mysql
+
+docs/bible-schema.htm
+
+Version: 2025.10.24
+
+MIT License
+
+Copyright (c) 2025 by Don Jewett
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</pre>
+
+<hr>
+
+</article>
+
+</main>
+
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <symbol id="icon-database" viewBox="0 0 20 20">
+            <path d="M16.726 12.641c-0.843 1.363-3.535 2.361-6.726 2.361s-5.883-0.998-6.727-2.361c-0.178-0.29-0.273-0.135-0.273 0.007 0 0.144 0 2.002 0 2.002 0 1.94 3.134 3.95 7 3.95s7-2.010 7-3.949c0 0 0-1.858 0-2.002s-0.096-0.298-0.274-0.008zM16.737 7.525c-0.83 1.205-3.532 2.090-6.737 2.090s-5.908-0.885-6.738-2.090c-0.171-0.248-0.262-0.113-0.262-0.002 0 0.113 0 2.357 0 2.357 0 1.762 3.134 3.189 7 3.189s7-1.428 7-3.189c0 0 0-2.244 0-2.357 0-0.111-0.092-0.246-0.263 0.002zM10 1c-3.866 0-7 1.18-7 2.633v1.26c0 1.541 3.134 2.791 7 2.791s7-1.25 7-2.791v-1.26c0-1.453-3.134-2.633-7-2.633z"></path>
+        </symbol>
+        <symbol id="icon-table" viewBox="0 0 32 32">
+            <path d="M0 2v28h32v-28h-32zM12 20v-6h8v6h-8zM20 22v6h-8v-6h8zM20 6v6h-8v-6h8zM10 6v6h-8v-6h8zM2 14h8v6h-8v-6zM22 14h8v6h-8v-6zM22 12v-6h8v6h-8zM2 22h8v6h-8v-6zM22 28v-6h8v6h-8z"></path>
+        </symbol>
+        <symbol id="icon-asterisk" viewBox="0 0 26 28">
+            <path d="M23.156 16.406c0.953 0.547 1.281 1.781 0.734 2.734l-1 1.719c-0.547 0.953-1.781 1.281-2.734 0.734l-4.156-2.391v4.797c0 1.094-0.906 2-2 2h-2c-1.094 0-2-0.906-2-2v-4.797l-4.156 2.391c-0.953 0.547-2.187 0.219-2.734-0.734l-1-1.719c-0.547-0.953-0.219-2.188 0.734-2.734l4.156-2.406-4.156-2.406c-0.953-0.547-1.281-1.781-0.734-2.734l1-1.719c0.547-0.953 1.781-1.281 2.734-0.734l4.156 2.391v-4.797c0-1.094 0.906-2 2-2h2c1.094 0 2 0.906 2 2v4.797l4.156-2.391c0.953-0.547 2.188-0.219 2.734 0.734l1 1.719c0.547 0.953 0.219 2.188-0.734 2.734l-4.156 2.406z"></path>
+        </symbol>
+        <symbol id="icon-link" viewBox="0 0 32 32">
+            <path d="M13.757 19.868c-0.416 0-0.832-0.159-1.149-0.476-2.973-2.973-2.973-7.81 0-10.783l6-6c1.44-1.44 3.355-2.233 5.392-2.233s3.951 0.793 5.392 2.233c2.973 2.973 2.973 7.81 0 10.783l-2.743 2.743c-0.635 0.635-1.663 0.635-2.298 0s-0.635-1.663 0-2.298l2.743-2.743c1.706-1.706 1.706-4.481 0-6.187-0.826-0.826-1.925-1.281-3.094-1.281s-2.267 0.455-3.094 1.281l-6 6c-1.706 1.706-1.706 4.481 0 6.187 0.635 0.635 0.635 1.663 0 2.298-0.317 0.317-0.733 0.476-1.149 0.476z"></path>
+            <path d="M8 31.625c-2.037 0-3.952-0.793-5.392-2.233-2.973-2.973-2.973-7.81 0-10.783l2.743-2.743c0.635-0.635 1.664-0.635 2.298 0s0.635 1.663 0 2.298l-2.743 2.743c-1.706 1.706-1.706 4.481 0 6.187 0.826 0.826 1.925 1.281 3.094 1.281s2.267-0.455 3.094-1.281l6-6c1.706-1.706 1.706-4.481 0-6.187-0.635-0.635-0.635-1.663 0-2.298s1.663-0.635 2.298 0c2.973 2.973 2.973 7.81 0 10.783l-6 6c-1.44 1.44-3.355 2.233-5.392 2.233z"></path>
+        </symbol>
+        <symbol id="icon-key" viewBox="0 0 20 20">
+            <path d="M17.691 4.725c-0.503-2.977-3.22-4.967-6.069-4.441s-5.256 2.816-4.753 5.795c0.107 0.641 0.408 1.644 0.763 2.365l-5.175 7.723c-0.191 0.285-0.299 0.799-0.242 1.141l0.333 1.971c0.058 0.342 0.372 0.572 0.7 0.514l1.516-0.281c0.328-0.059 0.744-0.348 0.924-0.639l2.047-3.311 0.018-0.022 1.386-0.256 2.39-3.879c0.785 0.139 1.912 0.092 2.578-0.031 2.848-0.526 4.087-3.67 3.584-6.649zM15.166 6.252c-0.784 1.17-1.584 0.346-2.703-0.475-1.119-0.818-2.135-1.322-1.352-2.492s2.326-1.455 3.447-0.635c1.12 0.819 1.391 2.432 0.608 3.602z"></path>
+        </symbol>
+        <symbol id="icon-key-small" viewBox="0 0 24 24">
+            <path d="M8.5 11c0 0.732 0.166 1.424 0.449 2.051l-3.949 3.949c0 0 0 0.672 0 1.5s0.896 1.5 2 1.5h2v-2h2v-2c0 0 2.329 0 2.5 0 2.762 0 5-2.238 5-5s-2.238-5-5-5-5 2.238-5 5zM13.5 13c-1.104 0-2-0.896-2-2 0-1.105 0.896-2.002 2-2.002 1.105 0 2 0.896 2 2.002 0 1.104-0.895 2-2 2z"></path>
+        </symbol>
+        <symbol id="icon-key-outline" viewBox="0 0 24 24">
+            <path d="M10 21h-6v-4.414l3.783-3.783c-0.187-0.587-0.283-1.192-0.283-1.803 0-3.309 2.691-6 6-6s6 2.691 6 6-2.691 6-6 6h-1.5v2h-2v2zM6 19h2v-2h2v-2h3.5c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4c0 0.559 0.121 1.109 0.359 1.639l0.285 0.631-4.144 4.144v1.586z"></path>
+            <path d="M13.5 9.998c0.551 0 1 0.449 1 1.002 0 0.552-0.449 1-1 1s-1-0.448-1-1c0-0.553 0.449-1.002 1-1.002zM13.5 8.998c-1.104 0-2 0.896-2 2.002 0 1.104 0.896 2 2 2 1.105 0 2-0.896 2-2 0-1.105-0.895-2.002-2-2.002z"></path>
+        </symbol>
+        <symbol id="icon-key-stroke" viewBox="0 0 32 32">
+            <path d="M22 0c-5.523 0-10 4.477-10 10 0 0.625 0.074 1.227 0.184 1.816l-12.184 12.184v8h12v-4h4v-4h4v-4l0.184-0.184c0.589 0.11 1.191 0.184 1.816 0.184 5.523 0 10-4.477 10-10s-4.477-10-10-10zM22 16c-0.313 0-0.656-0.039-1.086-0.117l-2.070-0.383-2.844 2.844v1.656h-4v4h-4v4h-4v-2.344l12.5-12.5-0.383-2.070c-0.080-0.43-0.117-0.774-0.117-1.086 0-3.309 2.691-6 6-6s6 2.691 6 6-2.691 6-6 6zM20 10c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2z"></path>
+        </symbol>
+        <symbol id="icon-key-round" viewBox="0 0 32 32">
+            <path d="M22 0c-5.523 0-10 4.477-10 10 0 0.626 0.058 1.238 0.168 1.832l-12.168 12.168v6c0 1.105 0.895 2 2 2h2v-2h4v-4h4v-4h4l2.595-2.595c1.063 0.385 2.209 0.595 3.405 0.595 5.523 0 10-4.477 10-10s-4.477-10-10-10zM24.996 10.004c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"></path>
+        </symbol>
+        <symbol id="icon-key-square" viewBox="0 0 32 32">
+            <path d="M31.317 9.82l-3.16-3.159c-0.775-0.775-2.043-2.043-2.818-2.818l-3.16-3.159c-0.775-0.775-2.155-0.911-3.067-0.304l-8.639 5.759c-0.912 0.608-1.257 1.907-0.767 2.887l2.203 4.405c0.067 0.135 0.145 0.278 0.231 0.427l-11.142 11.142-1 7h6v-2h4v-4h4v-4h4v-2.225c0.2 0.119 0.392 0.226 0.569 0.314l4.405 2.203c0.98 0.49 2.279 0.145 2.887-0.767l5.759-8.639c0.608-0.912 0.471-2.292-0.304-3.066zM4.707 26.707l-1.414-1.414 9.737-9.737 1.414 1.414-9.737 9.737zM28.657 13.243l-1.414 1.414c-0.389 0.389-1.025 0.389-1.414 0l-8.485-8.485c-0.389-0.389-0.389-1.025 0-1.414l1.414-1.414c0.389-0.389 1.025-0.389 1.414 0l8.485 8.485c0.389 0.389 0.389 1.025 0 1.414z"></path>
+        </symbol>
+    </defs>
+</svg>
+
+</body>
+</html>
