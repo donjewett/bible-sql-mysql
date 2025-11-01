@@ -221,7 +221,6 @@
 	<li><a href='#resources'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Resources</a></li>
 	<li><a href='#resourcetypes'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> ResourceTypes</a></li>
 	<li><a href='#revisions'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Revisions</a></li>
-	<li><a href='#salesstats'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> SalesStats</a></li>
 	<li><a href='#sections'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Sections</a></li>
 	<li><a href='#sites'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Sites</a></li>
 	<li><a href='#verses'><span class='small-icon'><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg></span> Verses</a></li>
@@ -542,23 +541,6 @@
 	</table>
 </article>
 
-<article id='salesstats'>
-	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> SalesStats</h2>
-	<table class='grid'>
-	<thead>
-		<tr><th>&#160;</th><th>Column</th><th>Data Type</th><th>Default</th><th>Refers To</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><th><svg class="icon icon-key"><use xlink:href="#icon-key"></use></svg></th><td>Id</td><td>int</td><td></td><td>&#160;</td><td>Auto-incrementing Id</td></tr>
-		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>VersionId</td><td>int</td><td></td><td><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg> <a href='#versions'>Versions</a></td><td>Version of the Sales Stat</td></tr>
-		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Year</td><td>smallint</td><td></td><td>&#160;</td><td>Year of the Sales Stat</td></tr>
-		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Month</td><td>int</td><td></td><td>&#160;</td><td>Month of the Sales Stat</td></tr>
-		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>Ranking</td><td>tinyint</td><td></td><td>&#160;</td><td>Ranking of the Sales Stat</td></tr>
-		<tr><th><svg class="small-icon icon-required"><use xlink:href="#icon-asterisk"></use></svg></th><td>DatePartCode</td><td>varchar(2) ascii</td><td>('m')</td><td>&#160;</td><td>Code representing the timeframe for Sales Stat</td></tr>
-	</tbody>
-	</table>
-</article>
-
 <article id='sections'>
 	<h2><svg class="small-icon icon-table"><use xlink:href="#icon-table"></use></svg> Sections</h2>
 	<table class='grid'>
@@ -677,7 +659,6 @@
 		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#bibles'>Bibles</a></td><td>VersionId</td><td>Version of this Bible</td></tr>
 		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#revisions'>Revisions</a></td><td>VersionId</td><td>Version of the Revision</td></tr>
 		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#resources'>Resources</a></td><td>VersionId</td><td>Version of the Resource</td></tr>
-		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#salesstats'>SalesStats</a></td><td>VersionId</td><td>Version of the Sales Stat</td></tr>
 		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versionnotes'>VersionNotes</a></td><td>VersionId</td><td>Version for this Note</td></tr>
 		<tr><th><svg class="small-icon icon-link"><use xlink:href="#icon-link"></use></svg></th><td><a href='#versions'>Versions</a></td><td>ParentId</td><td>Optional Version this is derived from</td></tr>
 	</table>
@@ -688,34 +669,12 @@
 
 <hr>
 
-<pre>Bible Database: MariaDB/MySQL, by Don Jewett
+<pre>Bible Database: MySQL/MariaDB, by Don Jewett
 https://github.com/donjewett/bible-sql-mysql
 
 docs/bible-schema.htm
-
-Version: 2025.10.24
-
-MIT License
-
-Copyright (c) 2025 by Don Jewett
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</pre>
+Version: 2025.10.31
+</pre>
 
 <hr>
 

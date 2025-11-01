@@ -1,5 +1,5 @@
-# bible-sql-mysql
-Bible database for MySQL/MariaDB
+# Bible SQL: MySQL/MariaDB
+Bible database for SQL
 
 ## Flavors ##
 
